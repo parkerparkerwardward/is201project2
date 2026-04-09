@@ -164,4 +164,51 @@
                 message.className = "message text-danger";
                 historyText = `${guess} - Wrong (Game Over)`;
                 endGame();
-            } else if (guess > targetNumber
+            } else if (guess > targetNumber) {
+                message.textContent = "Too high! Try a lower number.";
+                message.className = "message text-danger";
+                historyText = `${guess} - Too high`;
+            } else {
+                message.textContent = "Too low! Try a higher number.";
+                message.className = "message text-warning";
+                historyText = `${guess} - Too low`;
+            }
+
+            // Add to history log
+            const li = document.createElement('li');
+            li.textContent = historyText;
+            historyList.insertBefore(li, historyList.firstChild); // Adds to top of list
+
+            // Clear input
+            guessInput.value = '';
+            guessInput.focus();
+        }
+
+        function endGame() {
+            gameActive = false;
+            document.getElementById('guessInput').disabled = true;
+            document.getElementById('guessBtn').style.display = 'none';
+            document.getElementById('restartBtn').style.display = 'inline-block';
+        }
+
+        function resetGame() {
+            targetNumber = Math.floor(Math.random() * 100) + 1;
+            attemptsLeft = 10;
+            gameActive = true;
+
+            document.getElementById('attempts').textContent = attemptsLeft;
+            document.getElementById('message').textContent = "";
+            document.getElementById('history').innerHTML = "";
+            
+            const guessInput = document.getElementById('guessInput');
+            guessInput.disabled = false;
+            guessInput.value = '';
+            
+            document.getElementById('guessBtn').style.display = 'inline-block';
+            document.getElementById('restartBtn').style.display = 'none';
+            
+            guessInput.focus();
+        }
+    </script>
+</body>
+</html>
