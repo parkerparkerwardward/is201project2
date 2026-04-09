@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
+    <style>
+        /* CSS Styling */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #e9ecef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .game-card {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        .nav-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            text-decoration: none;
+            color: #6c757d;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .nav-link:hover {
+            color: #0d6efd;
+        }
+        h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        input[type="number"] {
+            width: 60%;
+            padding: 12px;
+            font-size: 18px;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        button {
+            background-color: #0d6efd;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #0b5ed7;
+        }
+        button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        .message {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+            min-height: 27px;
+        }
+        .text-danger { color: #dc3545; }
+        .text-success { color: #198754; }
+        .text-warning { color: #fd7e14; }
+        
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            font-size: 14px;
+            color: #495057;
+        }
+        .history-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+            text-align: left;
+            font-size: 13px;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+        .history-list li {
+            padding: 4px 0;
+            border-bottom: 1px dashed #e9ecef;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-card">
+        <a href="scratch.html" class="nav-link">&larr; Back to Michigan Sports</a>
+        
+        <h2>Number Guesser</h2>
+        <p>I am thinking of a number between 1 and 100. You have 10 attempts to guess it!</p>
+        
+        <input type="number" id="guessInput" placeholder="Enter a number..." min="1" max="100">
+        <br>
+        <button id="guessBtn" onclick="checkGuess()">Submit Guess</button>
+        <button id="restartBtn" onclick="resetGame()" style="display: none; background-color: #198754;">Play Again</button>
+
+        <div id="message" class="message"></div>
+
+        <div class="stats">
+            <div><strong>Attempts Left:</strong> <span id="attempts">10</span></div>
+        </div>
+        <div style="text-align: left; margin-top: 10px;">
+            <strong>Guess History:</strong>
+            <ul id="history" class="history-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        let targetNumber;
+        let attemptsLeft;
+        let gameActive = true;
+
+        // Initialize game on load
+        resetGame();
+
+        function checkGuess() {
+            if (!gameActive) return;
+
+            const guessInput = document.getElementById('guessInput');
+            const message = document.getElementById('message');
+            const attemptsSpan = document.getElementById('attempts');
+            const historyList = document.getElementById('history');
+            const guess = parseInt(guessInput.value);
+
+            // Validation
+            if (isNaN(guess) || guess < 1 || guess > 100) {
+                message.textContent = "Please enter a valid number between 1 and 100.";
+                message.className = "message text-warning";
+                return;
+            }
+
+            attemptsLeft--;
+            attemptsSpan.textContent = attemptsLeft;
+
+            let historyText = "";
+
+            // Check Win/Loss/Hint Conditions
+            if (guess === targetNumber) {
+                message.textContent = `🎉 Correct! The number was ${targetNumber}!`;
+                message.className = "message text-success";
+                historyText = `${guess} - Correct!`;
+                endGame();
+            } else if (attemptsLeft === 0) {
+                message.textContent = `💀 Game Over! The number was ${targetNumber}.`;
+                message.className = "message text-danger";
+                historyText = `${guess} - Wrong (Game Over)`;
+                endGame();
+            } else if (guess > targetNumber

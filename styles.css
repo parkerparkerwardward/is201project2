@@ -1,0 +1,69 @@
+/* Custom Stylesheet for Scratch Page */
+
+/* 1. Body Styling: Custom background color, font family, and default text color */
+body {
+    background-color: #00274C; /* Michigan Maize and Blue Theme - Blue background */
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #333333;
+    margin: 0;
+    padding: 0;
+}
+
+/* 2. Positioning Div 1: The main container to center content */
+.page-container {
+    width: 80%;
+    max-width: 1000px;
+    margin: 40px auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    overflow: hidden;
+}
+
+/* 3. Positioning Div 2: Header styling */
+.header-box {
+    background-color: #FFCB05; /* Michigan Maize */
+    color: #00274C; /* Dark blue font color */
+    padding: 30px;
+    text-align: center;
+    border-bottom: 5px solid #001A33;
+}
+
+/* 4. Positioning Div 3: Content sections layout */
+.content-section {
+    padding: 30px;
+    margin-bottom: 20px;
+    border-bottom: 1px dashed #cccccc;
+}
+
+/* 5. Navigation Links Styling */
+.nav-links {
+    display: block;
+    background-color: #eeeeee;
+    padding: 15px 30px;
+    font-weight: bold;
+}
+
+.nav-links a {
+    color: #00274C;
+    text-decoration: none;
+    margin-right: 20px;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+/* 6. Image and Video Styling */
+.media-image {
+    max-width: 100%;
+    height: auto;
+    border: 3px solid #00274C;
+    border-radius: 5px;
+}
+
+.video-container {
+    text-align: center;
+    margin: 20px 0;
+}
